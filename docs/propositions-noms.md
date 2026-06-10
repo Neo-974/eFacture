@@ -1,5 +1,13 @@
 # Propositions de noms commerciaux
 
+> **✔ Décision (juin 2026) : le nom retenu est « PassFact974 »**
+> (passerelle + facture + 974). Domaines libres a priori au moment du choix :
+> passfact974.re / .fr / .com et passfact.re / .fr (marque ombrelle pour les
+> déclinaisons régionales : PassFact971, PassFact972, PassFact973…).
+> Reste à faire : achat des domaines et vérification INPI.
+>
+> Les propositions ci-dessous sont conservées pour l'historique.
+
 *La disponibilité des marques (INPI) et des domaines reste à vérifier avant
 tout choix définitif.*
 

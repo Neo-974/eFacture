@@ -1,4 +1,6 @@
-# eFacture — Passerelle de conformité facturation électronique pour les PME réunionnaises
+# PassFact974 — Passerelle de conformité facturation électronique pour les PME réunionnaises
+
+*Nom commercial : **PassFact974** (passerelle + facture + La Réunion) — `eFacture` reste le nom technique du dépôt. Domaines visés : passfact974.re / .fr, et passfact.re / .fr comme marque ombrelle pour les futures déclinaisons régionales (PassFact971, 972, 973…).*
 
 > SaaS d'accompagnement à la réforme de la facturation électronique française
 > (échéances 2026‑2027), conçu d'abord pour les entreprises de La Réunion
