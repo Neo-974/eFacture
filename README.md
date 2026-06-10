@@ -6,34 +6,51 @@
 > (échéances 2026‑2027), conçu d'abord pour les entreprises de La Réunion
 > (TVA DOM, octroi de mer), avec une architecture prête pour d'autres régions.
 
-## Le problème
+## Démarrer la démo locale
 
-À partir du **1er septembre 2026**, toutes les entreprises établies en France
-(La Réunion incluse) doivent pouvoir **recevoir** des factures électroniques.
-À partir du **1er septembre 2027**, les PME, TPE et micro-entreprises devront
-aussi les **émettre** au format structuré (Factur‑X, UBL, CII) via une
-**Plateforme Agréée** (PA, ex‑PDP), et transmettre leur **e‑reporting**
-(ventes B2C et internationales) à l'administration fiscale.
+```bash
+npm install
+npm run dev
+```
 
-La majorité des PME réunionnaises facturent aujourd'hui avec Word, Excel ou
-des logiciels métier non conformes — et leurs spécificités locales
-(TVA DOM 8,5 % / 2,1 %, exonérations art. 295 du CGI, octroi de mer) sont mal
-couvertes par les solutions nationales.
+Ouvrir [http://localhost:3000](http://localhost:3000) pour accéder à la landing page, puis [http://localhost:3000/demo](http://localhost:3000/demo) pour la démo complète.
 
-## La solution
+La démo utilise un état local persistant (`demo-state.json`, gitignore) pré-chargé avec :
+- **3 factures émises** (ACCEPTED, DELIVERED, DRAFT)
+- **4 factures reçues** fournisseurs (2 PENDING, 2 APPROVED)
+- **2 périodes d'e-reporting** (1 PENDING, 1 CONFIRMED)
 
-**eFacture** est une **passerelle de conformité** : les entreprises gardent
-leurs outils actuels et l'application sert de pont vers la réforme.
+## Ce que simule la démo
 
-- 📥 **Import de factures PDF existantes** → extraction des données par IA →
-  génération d'une facture **Factur‑X** conforme
-- ✅ **Validation fiscale locale** : taux de TVA DOM, exonérations,
-  octroi de mer / octroi de mer régional
-- 📤 **Transmission** via une Plateforme Agréée partenaire (intégration API)
-- 📨 **Réception** des factures fournisseurs
-- 🧾 **E‑reporting** B2C et international
-- 🗄️ **Archivage légal** des factures
-- 📊 **Tableau de bord de conformité** + accès invité pour l'expert‑comptable
+| Fonctionnalité | Simulation |
+|---|---|
+| Import PDF | Extraction IA mockée (données réalistes TVA DOM + octroi de mer) |
+| Validation fiscale | Moteur de règles réel : taux DOM 8,5 %/2,1 %, art. 295 CGI, octroi de mer |
+| Génération Factur-X | XML CII EN 16931 généré réellement (téléchargeable) |
+| Transmission PA | Cycle de vie simulé en temps réel : DEPOSITED → CHECKED → DELIVERED → ACCEPTED |
+| Réception fournisseurs | Inbox avec actions (Approuver / Refuser / Litige) |
+| E-reporting DGFiP | Transmission simulée avec référence DGFiP fictive |
+
+## Stack technique
+
+| Couche | Technologie |
+|---|---|
+| Framework | Next.js 16 (App Router) + TypeScript |
+| UI | Tailwind CSS v4 + lucide-react |
+| Stockage (démo) | JSON file (`demo-state.json`) |
+| Stockage (prod) | Supabase PostgreSQL (configuration dans `.env.local`) |
+| Déploiement | Vercel (configuration prête) |
+| Extraction IA (prod) | Claude API (optionnel — clé dans `.env.local`) |
+
+## Variables d'environnement
+
+Copier `.env.local.example` en `.env.local` et renseigner :
+
+```bash
+cp .env.local.example .env.local
+```
+
+Pour la démo locale, aucune variable n'est nécessaire — tout fonctionne sans configuration.
 
 ## Documentation projet
 
@@ -41,9 +58,11 @@ leurs outils actuels et l'application sert de pont vers la réforme.
 |---|---|
 | [docs/cahier-des-charges.md](docs/cahier-des-charges.md) | Cahier des charges complet : contexte réglementaire, périmètre V1, spécificités Réunion, architecture, roadmap |
 | [docs/etude-plateformes-agreees.md](docs/etude-plateformes-agreees.md) | Étude comparative des Plateformes Agréées pour le partenariat API |
-| [docs/propositions-noms.md](docs/propositions-noms.md) | Propositions de noms commerciaux |
+| [docs/propositions-noms.md](docs/propositions-noms.md) | Historique des propositions de noms — décision : PassFact974 |
+| [docs/presentation/PassFact974-presentation-V1.pdf](docs/presentation/PassFact974-presentation-V1.pdf) | Dossier de présentation partenaires (10 pages, format paysage) |
 
 ## Statut
 
-🟡 **Phase de cadrage terminée** — développement du MVP à démarrer.
+🟢 **Phase 1 — Démo locale V1 opérationnelle**
 Modèle économique : abonnement SaaS mensuel.
+Prochaine étape : intégration Supabase + Vercel + partenariat PA.
