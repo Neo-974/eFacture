@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>eFacture — Présentation V1</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "DejaVu Sans", sans-serif; color: #16324a; }
+
+  .slide {
+    width: 297mm; height: 210mm;
+    page-break-after: always;
+    position: relative;
+    padding: 16mm 20mm 14mm 20mm;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .slide:last-child { page-break-after: avoid; }
+
+  /* ---------- shared ---------- */
+  .kicker {
+    font-size: 10pt; letter-spacing: 2.5px; text-transform: uppercase;
+    color: #0e7c86; font-weight: bold; margin-bottom: 4mm;
+  }
+  h2 { font-size: 24pt; color: #103a5c; margin-bottom: 8mm; line-height: 1.15; }
+  p.lead { font-size: 12.5pt; line-height: 1.5; color: #33536e; }
+  .accentbar {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 5mm;
+    background: linear-gradient(180deg, #0e7c86 0%, #1a9c8f 60%, #f4a93c 100%);
+  }
+  .pagenum {
+    position: absolute; bottom: 8mm; right: 12mm;
+    font-size: 8.5pt; color: #9bb0c1;
+  }
+  .footerbrand {
+    position: absolute; bottom: 8mm; left: 20mm;
+    font-size: 8.5pt; color: #9bb0c1; letter-spacing: 1px;
+  }
+  .card {
+    background: #f3f8fa; border-radius: 4mm; padding: 7mm 8mm;
+    border-top: 1.2mm solid #0e7c86;
+  }
+  .card h3 { font-size: 13pt; color: #0e7c86; margin-bottom: 3mm; }
+  .card p, .card li { font-size: 10.5pt; line-height: 1.45; color: #33536e; }
+  .cols { width: 100%; border-collapse: separate; border-spacing: 6mm 0; margin-left: -6mm; }
+  .cols td { vertical-align: top; }
+  ul.clean { list-style: none; }
+  ul.clean li { padding-left: 6mm; position: relative; margin-bottom: 2.5mm; }
+  ul.clean li::before {
+    content: "•"; color: #f4a93c; font-weight: bold;
+    position: absolute; left: 0;
+  }
+  .big { font-size: 30pt; font-weight: bold; color: #0e7c86; }
+  .tag {
+    display: inline-block; background: #e7f4f1; color: #0e7c86;
+    border-radius: 8mm; padding: 1.2mm 4mm; font-size: 9pt; font-weight: bold;
+    margin: 0 1.5mm 2mm 0;
+  }
+
+  /* ---------- cover ---------- */
+  .cover {
+    background: linear-gradient(135deg, #0b2e4a 0%, #0e5e6e 55%, #0e7c86 100%);
+    color: #fff; padding: 0;
+  }
+  .cover-inner { padding: 30mm 24mm; position: relative; height: 100%; }
+  .cover .product { font-size: 44pt; font-weight: bold; letter-spacing: 1px; margin-bottom: 6mm; }
+  .cover .product span { color: #f4a93c; }
+  .cover .tagline { font-size: 17pt; line-height: 1.45; max-width: 200mm; color: #dceef0; margin-bottom: 12mm; }
+  .cover .meta { font-size: 11pt; color: #a8cdd2; line-height: 1.7; }
+  .cover .badge {
+    display: inline-block; border: 0.5mm solid #f4a93c; color: #f4a93c;
+    padding: 2mm 6mm; border-radius: 8mm; font-size: 10.5pt; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14mm;
+  }
+  .wave {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 14mm;
+    background: linear-gradient(90deg, #f4a93c 0%, #1a9c8f 50%, #0e7c86 100%);
+  }
+
+  /* ---------- timeline ---------- */
+  .tl { width: 100%; border-collapse: separate; border-spacing: 5mm 0; margin: 4mm 0 8mm -5mm; }
+  .tl td {
+    vertical-align: top; width: 33%;
+    background: #f3f8fa; border-radius: 4mm; padding: 6mm 7mm;
+    border-top: 1.5mm solid #c9d9e4;
+  }
+  .tl td.hot { border-top-color: #f4a93c; background: #fdf6ea; }
+  .tl .date { font-size: 14pt; font-weight: bold; color: #103a5c; margin-bottom: 2mm; }
+  .tl p { font-size: 10.5pt; line-height: 1.45; color: #33536e; }
+
+  /* ---------- steps ---------- */
+  .steps { width: 100%; border-collapse: separate; border-spacing: 4mm 0; margin-left: -4mm; }
+  .steps td {
+    vertical-align: top; width: 25%;
+    background: #f3f8fa; border-radius: 4mm; padding: 6mm;
+  }
+  .stepnum {
+    display: inline-block; width: 9mm; height: 9mm; line-height: 9mm;
+    text-align: center; border-radius: 50%;
+    background: #0e7c86; color: #fff; font-weight: bold; font-size: 12pt;
+    margin-bottom: 3mm;
+  }
+  .steps h3 { font-size: 11.5pt; color: #103a5c; margin-bottom: 2mm; }
+  .steps p { font-size: 9.5pt; line-height: 1.4; color: #33536e; }
+
+  table.data { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+  table.data th {
+    background: #103a5c; color: #fff; text-align: left;
+    padding: 3mm 4mm; font-size: 10pt;
+  }
+  table.data td { padding: 3mm 4mm; border-bottom: 0.3mm solid #d8e3ec; color: #33536e; line-height: 1.4; }
+  table.data tr:nth-child(even) td { background: #f3f8fa; }
+
+  .pricing { width: 100%; border-collapse: separate; border-spacing: 6mm 0; margin-left: -6mm; }
+  .pricing td {
+    vertical-align: top; width: 33%; text-align: center;
+    background: #f3f8fa; border-radius: 4mm; padding: 8mm 6mm;
+    border-top: 1.5mm solid #0e7c86;
+  }
+  .pricing td.star { background: #0b2e4a; color: #fff; border-top-color: #f4a93c; }
+  .pricing .plan { font-size: 13pt; font-weight: bold; margin-bottom: 2mm; }
+  .pricing td.star .plan { color: #f4a93c; }
+  .pricing .price { font-size: 24pt; font-weight: bold; color: #0e7c86; margin: 2mm 0; }
+  .pricing td.star .price { color: #fff; }
+  .pricing .per { font-size: 9pt; color: #6e8aa0; margin-bottom: 4mm; }
+  .pricing td.star .per { color: #a8cdd2; }
+  .pricing ul { list-style: none; text-align: left; font-size: 9.5pt; line-height: 1.5; }
+  .pricing ul li { padding-left: 5mm; position: relative; margin-bottom: 1.5mm; }
+  .pricing ul li::before { content: "✓"; position: absolute; left: 0; color: #1a9c8f; font-weight: bold; }
+  .pricing td.star ul li::before { color: #f4a93c; }
+  .pricing td.star ul li { color: #dceef0; }
+</style>
+</head>
+<body>
+
+<!-- ================= 1. COUVERTURE ================= -->
+<div class="slide cover">
+  <div class="cover-inner">
+    <div class="badge">Dossier de présentation — Partenaires</div>
+    <div class="product">eFacture <span>974</span></div>
+    <div class="tagline">
+      La passerelle de conformité qui met les PME réunionnaises en règle avec la
+      facturation électronique obligatoire de septembre&nbsp;2027 — sans changer leurs outils.
+    </div>
+    <div class="meta">
+      Présentation de la version 1 &nbsp;·&nbsp; Juin 2026<br>
+      Neotechno Ingénierie &nbsp;·&nbsp; neotechno.ingenierie@gmail.com &nbsp;·&nbsp; La Réunion
+    </div>
+  </div>
+  <div class="wave"></div>
+</div>
+
+<!-- ================= 2. LA RÉFORME ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Le contexte réglementaire</div>
+  <h2>Une obligation légale, un calendrier qui ne se négocie pas</h2>
+  <p class="lead">
+    La réforme de la facturation électronique impose à <strong>toutes les entreprises
+    établies en France</strong> — La&nbsp;Réunion incluse, aux mêmes dates que la métropole —
+    de passer par des <strong>Plateformes Agréées</strong> par l'administration fiscale.
+  </p>
+  <table class="tl">
+    <tr>
+      <td>
+        <div class="date">1er sept. 2026</div>
+        <p><strong>Toutes les entreprises</strong> doivent être capables de
+        <strong>recevoir</strong> des factures électroniques.<br><br>
+        Grandes entreprises et ETI : obligation d'<strong>émettre</strong>.</p>
+      </td>
+      <td class="hot">
+        <div class="date">1er sept. 2027</div>
+        <p><strong>PME, TPE et micro-entreprises</strong> : obligation
+        d'<strong>émettre</strong> leurs factures au format électronique structuré
+        et de transmettre leur <strong>e-reporting</strong> (ventes B2C et international).</p>
+      </td>
+      <td>
+        <div class="date">En cas de non-conformité</div>
+        <p>Amendes par facture non conforme, blocage des échanges avec les clients
+        et fournisseurs passés au tout-électronique, risque fiscal accru.</p>
+      </td>
+    </tr>
+  </table>
+  <p class="lead" style="font-size: 11.5pt;">
+    Le papier, le PDF simple envoyé par e-mail et les factures Word/Excel
+    <strong>ne seront plus valables</strong> entre entreprises. Chaque facture devra transiter,
+    au format Factur-X / UBL / CII, par une plateforme immatriculée par la DGFiP.
+  </p>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">2</div>
+</div>
+
+<!-- ================= 3. LE PROBLÈME ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Le problème</div>
+  <h2>Les PME réunionnaises sont doublement exposées</h2>
+  <table class="cols">
+    <tr>
+      <td style="width:50%">
+        <div class="card" style="margin-bottom:6mm;">
+          <h3>1. Un parc d'outils non conformes</h3>
+          <p>La grande majorité des TPE/PME facturent avec Word, Excel ou des logiciels
+          métier qui ne produiront jamais de Factur-X ni ne se connecteront à une
+          Plateforme Agréée. Remplacer ces outils est coûteux, long et mal vécu.</p>
+        </div>
+        <div class="card">
+          <h3>2. Des spécificités locales ignorées</h3>
+          <p>Les solutions nationales sont pensées pour la métropole. À La Réunion :
+          <strong>TVA DOM à 8,5&nbsp;% et 2,1&nbsp;%</strong>, taux particuliers,
+          <strong>exonérations de l'article 295 du CGI</strong>,
+          <strong>octroi de mer et octroi de mer régional</strong> sur les flux
+          d'importation et de production locale. Une facture mal paramétrée
+          sera rejetée ou exposera l'entreprise fiscalement.</p>
+        </div>
+      </td>
+      <td style="width:50%">
+        <div class="card" style="border-top-color:#f4a93c; background:#fdf6ea; height: 100%;">
+          <h3 style="color:#b97b14;">Ce que vivent les dirigeants</h3>
+          <ul class="clean">
+            <li>« Je découvre l'obligation, je ne sais pas par où commencer. »</li>
+            <li>« Mon logiciel actuel ne sera pas mis à jour, ou l'éditeur a disparu. »</li>
+            <li>« Les grandes plateformes ne connaissent ni l'octroi de mer ni nos taux de TVA. »</li>
+            <li>« Je n'ai ni le temps ni l'équipe pour gérer un projet informatique. »</li>
+            <li>« Mon comptable me demande d'être prêt, mais ne fournit pas l'outil. »</li>
+          </ul>
+          <p style="margin-top:5mm;"><strong>Des dizaines de milliers d'entreprises
+          réunionnaises</strong> devront être en conformité d'ici septembre 2027 —
+          la fenêtre commerciale est immédiate.</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">3</div>
+</div>
+
+<!-- ================= 4. LA SOLUTION ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">La solution</div>
+  <h2>Une passerelle, pas un énième logiciel de facturation</h2>
+  <p class="lead" style="margin-bottom:8mm;">
+    L'entreprise <strong>garde ses outils et ses habitudes</strong>. eFacture&nbsp;974
+    transforme ses factures actuelles en flux 100&nbsp;% conformes, dans les deux sens.
+  </p>
+  <table class="steps">
+    <tr>
+      <td>
+        <div class="stepnum">1</div>
+        <h3>Déposer</h3>
+        <p>L'entreprise dépose sa facture PDF habituelle (glisser-déposer ou simple
+        transfert par e-mail). Aucun changement d'outil, aucune formation lourde.</p>
+      </td>
+      <td>
+        <div class="stepnum">2</div>
+        <h3>Extraire &amp; vérifier</h3>
+        <p>L'intelligence artificielle lit la facture et en extrait toutes les données.
+        L'utilisateur vérifie en quelques secondes un écran pré-rempli, les anomalies
+        sont surlignées.</p>
+      </td>
+      <td>
+        <div class="stepnum">3</div>
+        <h3>Mettre en conformité</h3>
+        <p>Contrôle automatique des taux de TVA DOM, des exonérations art. 295,
+        des mentions obligatoires 2026 et de l'octroi de mer. Génération de la
+        facture Factur-X conforme.</p>
+      </td>
+      <td>
+        <div class="stepnum">4</div>
+        <h3>Transmettre &amp; suivre</h3>
+        <p>Envoi via notre Plateforme Agréée partenaire, suivi du cycle de vie
+        (déposée, rejetée, encaissée…) et archivage légal automatique.</p>
+      </td>
+    </tr>
+  </table>
+  <p class="lead" style="margin-top:8mm; font-size:11.5pt;">
+    <strong>Positionnement :</strong> eFacture&nbsp;974 opère comme
+    <strong>Opérateur de Dématérialisation</strong>, adossé à une Plateforme Agréée
+    immatriculée DGFiP (intégration API). C'est le chemin le plus court et le moins
+    cher vers la conformité pour une PME.
+  </p>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">4</div>
+</div>
+
+<!-- ================= 5. FONCTIONNALITÉS V1 ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Le produit</div>
+  <h2>Périmètre fonctionnel de la version 1</h2>
+  <table class="cols">
+    <tr>
+      <td style="width:33%">
+        <div class="card" style="margin-bottom:5mm;">
+          <h3>Émission conforme</h3>
+          <ul class="clean">
+            <li>Import des factures PDF existantes</li>
+            <li>Extraction des données par IA + écran de vérification</li>
+            <li>Génération Factur-X (norme EN&nbsp;16931)</li>
+            <li>Transmission via la Plateforme Agréée</li>
+            <li>Suivi du cycle de vie de chaque facture</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Réception fournisseurs</h3>
+          <ul class="clean">
+            <li>Boîte de réception des factures électroniques</li>
+            <li>Approbation, refus, mise en litige</li>
+            <li>Transfert automatique au comptable</li>
+          </ul>
+        </div>
+      </td>
+      <td style="width:33%">
+        <div class="card" style="margin-bottom:5mm;">
+          <h3>E-reporting</h3>
+          <ul class="clean">
+            <li>Ventes B2C (commerces, caisses)</li>
+            <li>Transactions internationales</li>
+            <li>Transmission au rythme réglementaire selon le régime de TVA</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Archivage légal</h3>
+          <ul class="clean">
+            <li>Conservation 10 ans, intégrité garantie</li>
+            <li>Originaux structurés + version lisible</li>
+            <li>Hébergement en Union européenne</li>
+          </ul>
+        </div>
+      </td>
+      <td style="width:33%">
+        <div class="card" style="margin-bottom:5mm;">
+          <h3>Tableau de bord de conformité</h3>
+          <ul class="clean">
+            <li>Statuts de tous les flux en un coup d'œil</li>
+            <li>Alertes : rejets, échéances, factures incomplètes</li>
+            <li>Score de conformité et check-list « prêt pour 2027 »</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Accès expert-comptable</h3>
+          <ul class="clean">
+            <li>Invitation du cabinet en lecture/export sur le dossier</li>
+            <li>Le comptable récupère des données fiables, sans ressaisie</li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">5</div>
+</div>
+
+<!-- ================= 6. DIFFÉRENCIATION ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Notre différenciation</div>
+  <h2>L'expertise fiscale réunionnaise, intégrée dans le moteur</h2>
+  <table class="cols">
+    <tr>
+      <td style="width:55%">
+        <table class="data">
+          <tr><th>Spécificité locale</th><th>Prise en charge eFacture 974</th></tr>
+          <tr>
+            <td><strong>TVA DOM</strong> — taux normal 8,5&nbsp;%, réduit 2,1&nbsp;%, particuliers 1,75&nbsp;% / 1,05&nbsp;%</td>
+            <td>Validation automatique des taux ligne par ligne avant transmission</td>
+          </tr>
+          <tr>
+            <td><strong>Exonérations art. 295 du CGI</strong></td>
+            <td>Détection et mentions d'exonération correctement portées dans le Factur-X</td>
+          </tr>
+          <tr>
+            <td><strong>Octroi de mer / octroi de mer régional</strong></td>
+            <td>Champs OM / OMR gérés nativement sur les factures concernées</td>
+          </tr>
+          <tr>
+            <td><strong>Flux Réunion ↔ métropole</strong></td>
+            <td>Qualification correcte des opérations (domestique, livraison exonérée…)</td>
+          </tr>
+        </table>
+      </td>
+      <td style="width:45%">
+        <div class="card" style="height:100%;">
+          <h3>Pourquoi un acteur local gagne</h3>
+          <ul class="clean">
+            <li><strong>Aucun acteur national</strong> ne traite l'octroi de mer ni les taux DOM nativement</li>
+            <li><strong>Support de proximité</strong>, fuseau local, accompagnement humain en français/créole</li>
+            <li><strong>Réseau</strong> : experts-comptables, CCI, organisations patronales de l'île</li>
+            <li><strong>Architecture extensible</strong> : moteur de règles fiscales par territoire, déclinable Antilles, Guyane/Mayotte (e-reporting), métropole</li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">6</div>
+</div>
+
+<!-- ================= 7. MODÈLE ÉCONOMIQUE ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Le modèle économique</div>
+  <h2>Abonnement SaaS mensuel, sans engagement</h2>
+  <p class="lead" style="margin-bottom:7mm;">Grille indicative en cours de validation par l'étude de marché locale — paliers selon le volume de factures.</p>
+  <table class="pricing">
+    <tr>
+      <td>
+        <div class="plan">Essentiel</div>
+        <div class="price">~15 €</div>
+        <div class="per">HT / mois — TPE, indépendants</div>
+        <ul>
+          <li>Émission conforme (volume limité)</li>
+          <li>Réception fournisseurs</li>
+          <li>Archivage légal</li>
+          <li>Tableau de bord</li>
+        </ul>
+      </td>
+      <td class="star">
+        <div class="plan">Standard</div>
+        <div class="price">~35 €</div>
+        <div class="per">HT / mois — PME</div>
+        <ul>
+          <li>Tout Essentiel, volume étendu</li>
+          <li>E-reporting B2C et international</li>
+          <li>Octroi de mer / OMR</li>
+          <li>Accès expert-comptable</li>
+          <li>Import par e-mail</li>
+        </ul>
+      </td>
+      <td>
+        <div class="plan">Premium</div>
+        <div class="price">~70 €</div>
+        <div class="per">HT / mois — PME multi-utilisateurs</div>
+        <ul>
+          <li>Tout Standard, gros volumes</li>
+          <li>Utilisateurs illimités</li>
+          <li>Support prioritaire</li>
+          <li>Accompagnement à la mise en route</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+  <p class="lead" style="margin-top:7mm; font-size:11pt;">
+    <span class="tag">Essai gratuit</span>
+    <span class="tag">Revenus récurrents</span>
+    <span class="tag">Marché contraint par la loi : besoin non discrétionnaire</span>
+    <span class="tag">Canal indirect possible : cabinets comptables</span>
+  </p>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">7</div>
+</div>
+
+<!-- ================= 8. TECHNIQUE & CONFIANCE ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">Technologie &amp; confiance</div>
+  <h2>Une architecture moderne, conçue pour la conformité</h2>
+  <table class="cols">
+    <tr>
+      <td style="width:50%">
+        <div class="card" style="margin-bottom:5mm;">
+          <h3>Socle technique</h3>
+          <ul class="clean">
+            <li>Application web SaaS multi-entreprises (Next.js / PostgreSQL), hébergée en Union européenne</li>
+            <li>Extraction des factures par IA avec score de confiance par champ — l'humain valide toujours</li>
+            <li>Génération Factur-X validée systématiquement (norme EN&nbsp;16931) avant tout envoi</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Indépendance stratégique</h3>
+          <p>La connexion à la Plateforme Agréée passe par une couche d'abstraction :
+          eFacture&nbsp;974 peut changer de plateforme partenaire sans réécrire le produit.
+          Deux PA « API-first » sont short-listées, négociation en cours.</p>
+        </div>
+      </td>
+      <td style="width:50%">
+        <div class="card" style="height:100%;">
+          <h3>Sécurité &amp; conformité</h3>
+          <ul class="clean">
+            <li><strong>RGPD</strong> : hébergement UE, registre des traitements, contrats de sous-traitance avec tous les prestataires</li>
+            <li><strong>Aucune donnée utilisée pour entraîner des modèles d'IA</strong></li>
+            <li>Chiffrement des données en transit et au repos</li>
+            <li>Cloisonnement strict des données par entreprise</li>
+            <li>Journal d'audit de toutes les actions sur les factures</li>
+            <li>Archivage à valeur probante : empreinte et horodatage</li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">8</div>
+</div>
+
+<!-- ================= 9. ROADMAP ================= -->
+<div class="slide">
+  <div class="accentbar"></div>
+  <div class="kicker">La feuille de route</div>
+  <h2>D'aujourd'hui à septembre 2027</h2>
+  <table class="data" style="margin-top:2mm;">
+    <tr><th style="width:18%">Phase</th><th>Contenu</th><th style="width:18%">Statut</th></tr>
+    <tr>
+      <td><strong>0 — Cadrage</strong></td>
+      <td>Vision produit, périmètre V1, étude des Plateformes Agréées, spécifications fiscales Réunion</td>
+      <td><strong style="color:#1a9c8f;">● Terminé</strong> (juin 2026)</td>
+    </tr>
+    <tr>
+      <td><strong>1 — Socle</strong></td>
+      <td>Comptes entreprises, moteur de règles fiscales Réunion, génération Factur-X certifiée conforme</td>
+      <td>En cours de lancement</td>
+    </tr>
+    <tr>
+      <td><strong>2 — MVP émission</strong></td>
+      <td>Import PDF, extraction IA, écran de vérification, envoi en environnement de test de la Plateforme Agréée</td>
+      <td>À venir</td>
+    </tr>
+    <tr>
+      <td><strong>3 — Flux complets</strong></td>
+      <td>Réception fournisseurs, e-reporting, archivage légal, accès comptable, octroi de mer</td>
+      <td>À venir</td>
+    </tr>
+    <tr>
+      <td><strong>4 — Lancement</strong></td>
+      <td>Paiement en ligne, onboarding self-service, bêta avec des PME réunionnaises, partenariat PA signé</td>
+      <td>Cible : avant mi-2027</td>
+    </tr>
+  </table>
+  <p class="lead" style="margin-top:7mm; font-size:11.5pt;">
+    Objectif : être <strong>commercialement prêt plusieurs mois avant l'échéance de
+    septembre 2027</strong>, au moment où des dizaines de milliers de PME chercheront
+    une solution dans l'urgence.
+  </p>
+  <div class="footerbrand">eFacture 974 — Dossier partenaire</div>
+  <div class="pagenum">9</div>
+</div>
+
+<!-- ================= 10. PARTENARIAT ================= -->
+<div class="slide cover">
+  <div class="cover-inner">
+    <div class="kicker" style="color:#f4a93c;">Travaillons ensemble</div>
+    <h2 style="color:#fff; font-size:28pt; margin-bottom:10mm;">Ce que nous recherchons chez un partenaire</h2>
+    <table class="cols" style="margin-bottom:12mm;">
+      <tr>
+        <td style="width:33%">
+          <div class="card" style="background:rgba(255,255,255,0.08); border-top-color:#f4a93c;">
+            <h3 style="color:#f4a93c;">Distribution</h3>
+            <p style="color:#dceef0;">Cabinets d'expertise comptable, organisations professionnelles,
+            réseaux d'accompagnement : apporter eFacture&nbsp;974 à vos clients et adhérents.</p>
+          </div>
+        </td>
+        <td style="width:33%">
+          <div class="card" style="background:rgba(255,255,255,0.08); border-top-color:#f4a93c;">
+            <h3 style="color:#f4a93c;">Expertise</h3>
+            <p style="color:#dceef0;">Validation des règles fiscales locales, retours terrain,
+            co-construction du produit avec des cas réels d'entreprises réunionnaises.</p>
+          </div>
+        </td>
+        <td style="width:33%">
+          <div class="card" style="background:rgba(255,255,255,0.08); border-top-color:#f4a93c;">
+            <h3 style="color:#f4a93c;">Pilote</h3>
+            <p style="color:#dceef0;">Entreprises bêta-testeuses dès la phase MVP : tarif préférentiel
+            à vie en échange de leurs retours.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="meta" style="font-size:13pt; line-height:1.8;">
+      <strong style="color:#fff;">Contact</strong><br>
+      Neotechno Ingénierie — neotechno.ingenierie@gmail.com<br>
+      La Réunion
+    </div>
+  </div>
+  <div class="wave"></div>
+</div>
+
+</body>
+</html>
